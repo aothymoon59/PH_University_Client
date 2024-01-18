@@ -1,4 +1,4 @@
-import { Layout, Menu } from "antd";
+import { Layout, Menu, MenuProps } from "antd";
 import {
   UploadOutlined,
   UserOutlined,
@@ -7,16 +7,30 @@ import {
 import { createElement } from "react";
 const { Header, Content, Footer, Sider } = Layout;
 
-const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  UserOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: createElement(icon),
-  label: `nav ${index + 1}`,
-}));
+const items: MenuProps["items"] = [
+  {
+    key: "1",
+    label: "Dashboard",
+  },
+  {
+    key: "2",
+    label: "Profile",
+  },
+  {
+    key: "3",
+    label: "User Management",
+    children: [
+      {
+        key: "11",
+        label: "Create Admin",
+      },
+      {
+        key: "22",
+        label: "Create Student",
+      },
+    ],
+  },
+];
 
 const MainLayout = () => {
   return (
@@ -31,7 +45,18 @@ const MainLayout = () => {
           console.log(collapsed, type);
         }}
       >
-        <div className="demo-logo-vertical" />
+        <div
+          style={{
+            color: "white",
+            textAlign: "center",
+            height: "4rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <h1>PH Uni</h1>
+        </div>
         <Menu
           theme="dark"
           mode="inline"
@@ -39,7 +64,7 @@ const MainLayout = () => {
           items={items}
         />
       </Sider>
-      <Layout>
+      <Layout style={{ height: "100vh" }}>
         <Header style={{ padding: 0 }} />
         <Content style={{ margin: "24px 16px 0" }}>
           <div
