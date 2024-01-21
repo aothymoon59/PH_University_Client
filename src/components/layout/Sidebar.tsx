@@ -25,7 +25,6 @@ const Sidebar = () => {
     case userRole.STUDENT:
       sidebarItems = sidebarItemsGenerator(studentPaths, userRole.STUDENT);
       break;
-
     default:
       break;
   }
