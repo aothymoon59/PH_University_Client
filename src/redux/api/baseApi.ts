@@ -10,6 +10,7 @@ import {
 import { RootState } from "../store";
 import { logout, setUser } from "../features/auth/authSlice";
 
+// base query
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000/api/v1",
   credentials: "include",
@@ -24,6 +25,7 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
+// base query with refresh token
 const baseQueryWithRefreshToken: BaseQueryFn<
   FetchArgs,
   BaseQueryApi,
