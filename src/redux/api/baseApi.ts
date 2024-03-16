@@ -58,6 +58,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   return result;
 };
 
+// base query
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
