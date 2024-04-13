@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   BaseQueryApi,
   BaseQueryFn,
@@ -9,8 +8,8 @@ import {
 } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 import { logout, setUser } from "../features/auth/authSlice";
+import { toast } from "sonner";
 
-// base query
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000/api/v1",
   credentials: "include",
@@ -25,14 +24,20 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-// base query with refresh token
 const baseQueryWithRefreshToken: BaseQueryFn<
   FetchArgs,
   BaseQueryApi,
   DefinitionType
 > = async (args, api, extraOptions): Promise<any> => {
   let result = await baseQuery(args, api, extraOptions);
+
+  if (result?.error?.status === 404) {
+    toast.error(result.error.data.message);
+  }
   if (result?.error?.status === 401) {
+    //* Send Refresh
+    console.log("Sending refresh token");
+
     const res = await fetch("http://localhost:5000/api/v1/auth/refresh-token", {
       method: "POST",
       credentials: "include",
@@ -49,6 +54,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
           token: data.data.accessToken,
         })
       );
+
       result = await baseQuery(args, api, extraOptions);
     } else {
       api.dispatch(logout());
@@ -58,7 +64,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   return result;
 };
 
-// base query
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
