@@ -1,4 +1,4 @@
-/* import { TQueryParam, TResponseRedux } from "../../../types";
+import { TQueryParam, TResponseRedux } from "../../../types";
 import { TAcademicSemester } from "../../../types/academicManagement.type";
 import { baseApi } from "../../api/baseApi";
 
@@ -40,4 +40,3 @@ const academicManagementApi = baseApi.injectEndpoints({
 
 export const { useGetAllSemestersQuery, useAddAcademicSemesterMutation } =
   academicManagementApi;
- */
