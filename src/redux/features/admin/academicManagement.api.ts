@@ -1,4 +1,4 @@
-/* import { TQueryParam, TResponseRedux } from "../../../types";
+import { TQueryParam, TResponseRedux } from "../../../types";
 import { TAcademicSemester } from "../../../types/academicManagement.type";
 import { baseApi } from "../../api/baseApi";
 
@@ -6,7 +6,6 @@ const academicManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllSemesters: builder.query({
       query: (args) => {
-        console.log(args);
         const params = new URLSearchParams();
 
         if (args) {
@@ -40,4 +39,3 @@ const academicManagementApi = baseApi.injectEndpoints({
 
 export const { useGetAllSemestersQuery, useAddAcademicSemesterMutation } =
   academicManagementApi;
- */
