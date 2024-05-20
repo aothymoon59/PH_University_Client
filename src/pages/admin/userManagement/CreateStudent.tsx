@@ -6,7 +6,11 @@ import PHSelect from "../../../components/form/PHSelect";
 import PHDatePicker from "../../../components/form/PHDatePicker";
 import { bloodGroupOptions, genderOptions } from "../../../constants/global";
 // import { semesterOptions } from "../../../constants/semester";
-import { useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
+import {
+  useGetAcademicDepartmentsQuery,
+  useGetAllSemestersQuery,
+} from "../../../redux/features/admin/academicManagement.api";
+import { useAddStudentMutation } from "../../../redux/features/admin/useManagement.api";
 
 //! This is only for development
 //! Should be removed
@@ -46,18 +50,31 @@ const studentDefaultValues = {
 };
 
 const CreateStudent = () => {
+  const [addStudent, { data, error }] = useAddStudentMutation();
   const { data: sData, isLoading: sIsLoading } =
     useGetAllSemestersQuery(undefined);
+
+  const { data: dData, isLoading: dIsLoading } =
+    useGetAcademicDepartmentsQuery(undefined);
 
   const semesterOptions = sData?.data?.map((item) => ({
     value: item?._id,
     label: `${item?.name} ${item?.year}`,
   }));
+  const departmentOptions = dData?.data?.map((item) => ({
+    value: item._id,
+    label: item.name,
+  }));
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+    const studentData = {
+      password: "student123",
+      student: data,
+    };
+
     const formData = new FormData();
 
-    formData.append("something", "Data of something");
+    formData.append("data", JSON.stringify(studentData));
+    addStudent(formData);
 
     //! This is for development
     //! Just for checking
@@ -221,8 +238,8 @@ const CreateStudent = () => {
             </Col>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
               <PHSelect
-                // options={departmentOptions}
-                // disabled={dIsLoading}
+                options={departmentOptions}
+                disabled={dIsLoading}
                 name="academicDepartment"
                 label="Admission Department"
               />
