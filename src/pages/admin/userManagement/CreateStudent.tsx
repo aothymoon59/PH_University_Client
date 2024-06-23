@@ -74,10 +74,12 @@ const CreateStudent = () => {
     const formData = new FormData();
 
     formData.append("data", JSON.stringify(studentData));
+    formData.append("file", data.image);
     addStudent(formData);
 
     //! This is for development
     //! Just for checking
+    console.log(studentData);
     console.log(Object.fromEntries(formData));
   };
   return (
